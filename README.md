@@ -177,11 +177,15 @@ References
   Cryptology – ASIACRYPT 2007, vol. 4833, K. Kurosawa, Ed., in Lecture Notes in
   Computer Science, vol. 4833., Berlin, Heidelberg: Springer Berlin Heidelberg, 2007, pp.
   536–550. doi: 10.1007/978-3-540-76900-2_33.
+
 [2] B. Kaushik, V. Malik, and V. Saroha, “A Review Paper on Data Encryption and Decryption,”
   IJRASET, vol. 11, no. 4, pp. 1986–1992, Apr. 2023, doi: 10.22214/ijraset.2023.50101.
+
 [3] M. Papathanasaki, L. Maglaras, and N. Ayres, “Modern Authentication Methods: A
   Comprehensive Survey,” AI, Computer Science and Robotics Technology, Jun. 2022, doi:
   10.5772/acrt.08.
+
 [4] D. Liestyowati, “Public Key Cryptography,” J. Phys.: Conf. Ser., vol. 1477, no. 5, p. 052062,
   Mar. 2020, doi: 10.1088/1742-6596/1477/5/052062.
+
 [5] D. Gotterbarn et al., “ACM Code of Ethics and Professional Conduct”.
