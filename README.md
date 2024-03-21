@@ -1,11 +1,15 @@
 CS-492-02 Spring 2024 Computer Security Course Project
 
+
 Emilio Espada and William Horton
 Professor Zabihimayvan
 
+
 Project Survey
 
+
 Introduction to the Project
+
   The primary goal of the project is to create a website with a login system. Each user will
 have a notes feature on their accounts. Each user will be able to create a note to store text, which
 can be stored as a card for their account. Each card will be stored on the account which will
@@ -14,6 +18,7 @@ username, and the text will be hashed using Tiger Hash, while also being encrypt
 the user’s private key. This file will be sent to the other user, and the other user can choose to
 accept it or not. If they accept, they can view the card after using the other user’s public key,
 decrypting the message.
+
   There will be 4 topics which will be relevant to the project, encryption and decryption,
 tiger hash, authentication, and public key cryptography. Encryption and decryption are relevant
 to the encryption and decryption of the authentication system for user accounts, tiger hash, as
@@ -21,9 +26,12 @@ well as public key cryptography. Tiger hash will be relevant to hashing the mess
 notes. Public key cryptography will be relevant to the digital signatures that will be sent with the
 notes. Authentication will be relevant to the login system which will be done using Django.
 
+
 Background and Literature Review
+
   The relevant research to the project focuses on Tiger Hash, Encryption and Decryption,
 modern authentication systems, and public key cryptography. Each will be summarized.
+
   Tiger hash is a hash function in which processes 512 bit blocks and produces a 192 bit
 hash value [1]. It is an iterative hash function in which consists of two parts: the key schedule,
 and state update transformation. During the state update transformation, the Tiger Hash starts
@@ -35,11 +43,13 @@ value for the next block. The key schedule is “an invertible function that cha
 of bits in the messages which will affect a lot of bits in the next pass” [1]. The key schedule
 modifies its inputs in two steps of computation, and afterwards the final values are the output and
 the message words for the next pass.
+
   Encryption and decryption are a cryptography method in which a message is converted
 into a cipher through some encryption algorithm, and can be decrypted from the cipher message,
 back into the regular message using a decryption algorithm [2]. Multiple algorithms can be
 combined to create more diverse and secure messages if wanted for a certain cryptographic
 system. There are many different algorithms that are used for encrypting and decrypting.
+
   Authentication is a type of system that requires the need for the “verification of a user’s
 identity” [3]. This type of system requires that a user’s information on a system must only be
 intended for that user or a certain group, if they know the required information to access that
@@ -48,16 +58,20 @@ require more than one step of verification from the user’s side to verify thei
 factor authentication. Usually, however, the primary gateway to an account is a username, and
 password, both of which should only be known to the user, otherwise their information on their
 account is not private and secure.
+
   Public key cryptography comes down to a public key and a private key, one for
 encrypting or signing, and the other for decrypting or verifying. One of these keys can be made
 public and the other is private. This makes it so that keys do not need to be sent over during
 messages, and messages will be secure if the private key remains. This makes it so that “anyone
 can encipher messages, but only the intended recipient can decipher messages” [4].
 
+
 Methodology
+
   The project's methodology will be based on understanding of the Tiger Hash function,
 documentation for creating the necessary website, and research around peer-to-peer file sharing
 to share data across accounts.
+
   The primary tools that will be used for the project will be as follows
     1. PyCharm – An IDE which allows for the creation of websites through HTML, CSS, and
     JavaScript, as well as coding in Python
@@ -67,6 +81,7 @@ to share data across accounts.
     with Tiger Hash.
     3. PythonAnywhere – A cloud deployment website in which our website will be available to
     the general public.
+
   The following steps will be the current course in which the project will be done.
     1. Create GitHub project – based on Django
     2. Create the user interface for login/account creation
@@ -75,7 +90,9 @@ to share data across accounts.
     5. Utilize public key cryptography for the notes
     6. Cloud Deploy the website using Pythonanywhere.com
 
+
 Expected Outcomes
+
   The outcome of the project will be a website built from Django in which will have a login
 system, where a user can create an account and login using said account. Once logging into the
 website, the user will be able to create notes, which have text stored inside them. The user can
@@ -88,6 +105,7 @@ sign a message with their private key, and the other user on the other side must
 to decrypt the message. User’s public keys will be viewable to others as they are supposed to be
 public knowledge. The other user receiving the message must verify that they want to receive the
 file. If they do, the note will be added to their account with the sent user’s username alongside it.
+
 
 Timeline
 3/4 Survey Submit
@@ -117,6 +135,7 @@ need to wait for feedback to progress to the next step.
 4/26 - Presentation Complete, Video Demo Done
   - Wrapping up, where most material should be completed.
 
+
 Resources
 The primary tools and software that will be used for the project will be as follows:
   - PyCharm – a IDE that can be used to create website applications using the coding
@@ -127,13 +146,17 @@ The primary tools and software that will be used for the project will be as foll
   the public domain.
   - Computer – a required tool that is needed to utilize PyCharm software
 
+
 Ethical Considerations and Guidelines
+
 Ethical Considerations
+
   - Due to using a public website, information and accounts created on the website could
   potentially be hacked
   - Due to that a user can send messages to any other user if they have their username, a
   certain user might be able to send messages to another user, although the receiving user
   will still have to verify the messages sent before receiving them
+
 Ethical Guidelines – from the ACM Code of Ethics Booklet [5]
   - 1.7 Honor Confidentiality
   o Our system will ensure that a user’s created notes will only be viewable by the
@@ -155,7 +178,9 @@ Ethical Guidelines – from the ACM Code of Ethics Booklet [5]
   potential for unpredictable behavior, those systems will not be put in place, and a
   secure solution will be put in place instead.
 
+
 Conclusion
+
   The basic premise of the project will be to integrate the following topics into a notes website:
 encryption and decryption, authentication, tiger hash, and a public cryptography system. These
 together will create a secure and private system in which each user will have access to their own
@@ -167,10 +192,13 @@ the intended functionality that our user’s expect: Honor Confidentiality, Perf
 areas of competence, Avoid Harm, and Design and implement systems that are robustly and
 usably secure. Together, this makes up the basic gist that our project consists of, and the
 expected goals which we hope to complete before the deadline.
+
   The project's overall impact will be to demonstrate the above topics of Computer Security
 and display their usefulness in a system where we share information from one user to another.
 This emphasizes the importance of these topics' role in security and their importance to the
 overall general research they are a part of.
+
+
 References
 
 [1] F. Mendel and V. Rijmen, “Cryptanalysis of the Tiger Hash Function,” in Advances in
