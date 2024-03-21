@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Event Already Exists
+{% endblock %}
+
+{% block body %}
+    <div class="container bg-white my-3 p-4 shadow">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <h1 class="display-6 text-center">Event Already Exists</h1>
+                <p class="lead text-center">Sorry, a similar event has already been saved.</p>
+                <div class="text-center">
+                    <a href="{% url 'view-events' %}" class="btn btn-primary">View Your Events</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

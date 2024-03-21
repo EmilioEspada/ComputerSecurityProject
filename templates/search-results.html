@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Ticketmaster Search
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid bg-primary text-white">
+        <div class="row justify-content-center">
+            <div class="col-lg-9">
+                <h1 class="display-5 text-center pt-5">Ticketmaster</h1>
+                <h2 class="fw-bold text-center pb-5">Quickly find tickets around you</h2>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Search by genre, artist or event"
+                               name="classification_name">
+                        <input type="text" class="form-control" placeholder="Enter a city e.g., Hartford" name="city">
+                        <button class="btn btn-danger" type="submit" name="search" value="SEARCH"><i
+                                class="fa-solid fa-magnifying-glass"></i> SEARCH
+                        </button>
+                    </div>
+                </form>
+                {% for message in messages %}
+                    <div class="alert alert-danger" role="alert">
+                        <h4>{{ message }}</h4>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    {% if events %}
+        <section id="results-container" class="container bg-white my-3 p-4 shadow">
+            <div class="row justify-content-center">
+                <div class="col-lg-12">
+                    <h4 class="text-secondary">{{ events_found }} events found</h4>
+                    {% for event in events %}
+                        <div class="card mb-3 shadow">
+                            <div class="row g-0">
+                                <div class="col-md-4 d-flex align-items-center">
+                                    <img src="{{ event.event_image }}" class="card-img p-1" alt="event image">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-6 d-flex align-items-center">
+                                                <h4>{{ event.event_name }}</h4>
+                                            </div>
+                                            <div class="col-6 text-success text-end">
+                                                <h4>{{ event.event_date }}</h4>
+                                                <h5>{{ event.event_time }}</h5>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-9">
+                                                <h4 class="text-secondary">{{ event.venue_name }}</h4>
+                                                <p class="text-secondary mt-4">{{ event.venue_address }}<br>{{ event.venue_city }}, {{ event.venue_state }}
+                                                </p>
+                                                <a href="{{ event.ticket_link }}" class="btn btn-primary">Find tickets
+                                                    <i class="fa-solid fa-up-right-from-square"></i></a>
+                                            </div>
+                                            <div class="col-3">
+                                                <form action="{% url 'add-event' %}" method="post">
+                                                    {% csrf_token %}
+                                                    <span class="d-none">{{ event.form.as_p }}</span>
+                                                    <input type="submit" name="save" value="Save Event"
+                                                           class="btn btn-info btn-lg float-end mt-5">
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+    {% endif %}
+{% endblock %}

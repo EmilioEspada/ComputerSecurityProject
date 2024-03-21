@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Sign Up
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid bg-primary text-white">
+        <div class="row justify-content-center">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4">
+                <h1 class="display-5 text-center pt-5">Ticketmaster</h1>
+                <h2 class="fw-bold text-center pb-5">Quickly find tickets around you</h2>
+                <form action="{% url 'signup' %}" method="post">
+                    {% csrf_token %}
+                    {% block content %}
+                        <h2>Sign Up</h2>
+                        {% for message in messages %}
+                            <div class="alert alert-danger" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                        {{ form.as_div }}
+                        <input type="submit" class="btn btn-warning m-2" value="Sign Up">
+                    {% endblock %}
+                </form>
+                <div class="fs-5 text-center text-dark mb-2">
+                    Already Have An Account?
+                    <a class="text-dark link-dark link-underline-opacity-0 link-underline-opacity-100-hover"
+                       href="{% url 'login' %}">
+                        Sign In Here
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-4"></div>
+        </div>
+    </div>
+{% endblock %}
