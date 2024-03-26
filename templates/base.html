@@ -15,17 +15,17 @@
 <body class="bg-light">
 <nav class="navbar navbar-expand bg-dark">
   <div class="container">
-    <a class="navbar-brand text-white" href="{% url 'search-results' %}"><i class="fa-solid fa-ticket fa-2xl"></i></a>
+    <a class="navbar-brand text-white" href="{% url 'search-results' %}"><i class="fa-solid fa-note-sticky fa-2xl"></i></a>
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
       {% if user.is_authenticated %}
+{#        <li class="nav-item">#}
+{#          <a class="nav-link text-white" href="{% url 'search-results' %}">Search</a>#}
+{#        </li>#}
         <li class="nav-item">
-          <a class="nav-link text-white" href="{% url 'search-results' %}">Search</a>
+          <a class="nav-link text-white" href="{% url 'view-notes' %}">Saved Notes</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link text-white" href="{% url 'view-events' %}">Saved Events</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link text-white" href="{% url 'view-events' %}">Create Note</a>
+          <a class="nav-link text-white" href="{% url 'create-note' %}">Create Note</a>
         </li>
         <li class="nav-item">
           <a class="nav-link text-white" href="{% url 'logout' %}">Logout</a>

@@ -22,11 +22,13 @@ class SavedEvents(models.Model):
     link = models.CharField(max_length=128)
     favorite = models.BooleanField()
 
+
 class SavedNotes(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    name = models.CharField(max_length=64)
+    username = models.CharField(max_length=16)
+    title = models.CharField(max_length=64)
     image = models.CharField(max_length=128)
     date = models.CharField(max_length=32, blank=True)
     time = models.CharField(max_length=16, blank=True)
-    venue = models.CharField(max_length=64)
+    content = models.CharField(max_length=256, blank=True)
     favorite = models.BooleanField()

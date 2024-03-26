@@ -50,3 +50,9 @@ class SavedEventsForm(forms.ModelForm):
     class Meta:
         model = SavedEvents
         exclude = ['user']
+
+
+class SavedNotesForm(forms.ModelForm):
+    class Meta:
+        model = SavedNotes
+        exclude = ('user', 'username','date','time')
