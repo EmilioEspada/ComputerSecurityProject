@@ -2,10 +2,10 @@ from datetime import datetime
 
 import requests
 from django.contrib import messages
-from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+
 from .forms import *
 from .models import SavedEvents
 
@@ -225,6 +225,8 @@ def view_notes(request):  # view saved events
     notes = SavedNotes.objects.filter(user=request.user)
     context = {'notes': notes}
     return render(request, 'saved-notes.html', context)
+
+
 @login_required(login_url='login')
 def create_note(request):
     # Create a form instance and populate it with data from the request
@@ -245,6 +247,7 @@ def create_note(request):
     # if the request does not have post data, a blank form will be rendered
     return render(request, 'create-note-form.html', {'form': form})
 
+
 @login_required(login_url='login')
 def update_note(request, note_id):  # favorite events that are saved
     note = SavedNotes.objects.get(id=note_id, user=request.user)
@@ -260,12 +263,14 @@ def update_note(request, note_id):  # favorite events that are saved
     context = {'notes': notes}
     return render(request, 'saved-notes.html', context)
 
+
 def delete_note(request, id):  # delete events from saved database
     note = SavedNotes.objects.get(id=id)
     if request.method == 'POST':
         note.delete()
         return redirect('view-notes')
     return render(request, 'delete-confirm.html', {'note': note})
+
 
 @login_required(login_url='/login/1/')
 def update_comp_note(request, note_id):
@@ -276,3 +281,11 @@ def update_comp_note(request, note_id):
         form.save()
         return redirect('view-notes')
     return render(request, 'create-note-form.html', {'form': form})
+
+
+# Page to test encryption, not needed for final product
+@login_required(login_url='test')
+def test_encrypt(request):  # view saved events
+    notes = SavedNotes.objects.filter(user=request.user)
+    context = {'notes': notes}
+    return render(request, 'test-encrypt.html', context)

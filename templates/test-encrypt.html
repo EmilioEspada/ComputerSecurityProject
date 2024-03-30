@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Saved Notes
+{% endblock %}
+
+{% block body %}
+    <div class="container bg-white my-3 p-4 shadow">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <h1 class="display-6 text-center">Saved Notes</h1>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col-2">Title</th>
+                            <th scope="col-2">Date</th>
+                            <th scope="col-6">Note</th>
+                            <th scope="col-1">Created User</th>
+                            <th scope="col"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for note in notes %}
+                            <tr>
+                                <td><p class="lead">{{ note.title }}</p><img src="{{ note.image }}" width="150"
+                                                                             class="img-thumbnail rounded"
+                                                                             alt="note image"></td>
+                                <td class="lead">{{ note.date }}, {{ note.time }}</td>
+                                <td class="lead" width="200">{{ note.content }}</td>
+                                <td class="lead">{{ note.username }} </td>
+                                <td class="lead text-center">
+                                    <br>
+                                    <a href="{% url 'update-comp-note' note.id %}" class="delete-icon">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </a>
+                                    <br>
+                                    <a href="{% url 'update-note' note.id %}" class="update-icon">
+                                        {% if note.favorite == 0 %}
+                                            <i class="fa-regular fa-star fa-xl" style="color: #ffd43b;"></i>
+                                        {% endif %}
+                                        {% if note.favorite == 1 %}
+                                            <i class="fa-solid fa-star fa-xl" style="color: #ffd43b;"></i>
+                                        {% endif %}
+                                    </a>
+                                    <br>
+                                    <a href="{% url 'delete-note' note.id %}" class="delete-icon">
+                                        <i class="fa-solid fa-delete-left" style="color: #ff0000;"></i>
+                                    </a>
+                                    <br>
+
+                                    <!--Click this button to convert this message to ASCII characters-->
+                                    <!--How everything is shown here is not final, for testing purposes-->
+                                    <h4>Message to be converted to ASCII:</h4>
+                                    <p id="message">{{ note.content }}</p>
+
+                                    <h4>UID used for shift cipher:</h4>
+                                    <p id="uid">{{ note.user_id }}</p>
+
+                                    <button id="encryptButton" type="button" class="btn btn-primary">Convert to ASCII
+                                        and Shift
+                                    </button>
+                                    <div id="asciiOutput"></div>
+                                    <!-- displays the converted ASCII characters after button press -->
+                                    <div id="shiftOutput"></div>
+                                    <!-- displays the shifted characters after button press -->
+
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'encryptHandler.js' %}"></script>
+{% endblock %}

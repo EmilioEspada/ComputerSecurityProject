@@ -37,5 +37,6 @@ urlpatterns = [
     path('create-note/', views.create_note, name='create-note'),
     path('delete/<int:id>', views.delete_note, name='delete-note'),  # D, delete event from saved events database
     path('updateNote/<int:note_id>', views.update_comp_note, name='update-comp-note'),  # U, update event to favorites or unfavorite
-
+    # used to test encryption, not needed for final product
+    path('test-encrypt/', views.test_encrypt, name='test-encrypt'),
 ]
