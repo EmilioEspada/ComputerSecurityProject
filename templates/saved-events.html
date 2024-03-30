@@ -23,7 +23,9 @@
                         <tbody>
                         {% for event in events %}
                             <tr>
-                                <td><p class="lead">{{ event.name }}</p><img src="{{ event.image }}" width="200" class="img-thumbnail rounded" alt="event image"></td>
+                                <td><p class="lead">{{ event.name }}</p><img src="{{ event.image }}" width="200"
+                                                                             class="img-thumbnail rounded"
+                                                                             alt="event image"></td>
                                 <td class="lead">{{ event.date }}, {{ event.time }}</td>
                                 <td class="lead">{{ event.venue }}</td>
                                 <td class="lead">{{ event.address }}, {{ event.city }}, {{ event.state }}</td>
