@@ -21,29 +21,32 @@
                         </tr>
                         </thead>
                         <tbody>
-                        {% for event in events %}
+                        {% for note in notes %}
                             <tr>
-                                <td><p class="lead">{{ event.name }}</p><img src="{{ event.image }}" width="200"
-                                                                             class="img-thumbnail rounded"
-                                                                             alt="event image"></td>
-                                <td class="lead">{{ event.date }}, {{ event.time }}</td>
-                                <td class="lead">{{ event.venue }}</td>
-                                <td class="lead">{{ event.address }}, {{ event.city }}, {{ event.state }}</td>
+                                <td><p class="lead">{{ note.title }}</p><img src="{{ note.image }}" width="150" class="img-thumbnail rounded" alt="note image"></td>
+                                <td class="lead">{{ note.date }}, {{ note.time }}</td>
+                                <td class="lead" width="200">{{ note.content }}</td>
+                                <td class="lead">{{ note.username }} </td>
                                 <td class="lead text-center">
-                                    <a href="{{ event.link }}"><i class="fa-solid fa-ticket-simple fa-xl n"></i></a>
                                     <br>
-                                    <a href="{% url 'update-event' event.id %}" class="update-icon">
-                                        {% if event.favorite == 0 %}
+                                    <a href="{% url 'update-comp-note' note.id %}" class="delete-icon">
+                                        <i class="fa-solid fa-pen-to-square"></i>
+                                    </a>
+                                    <br>
+                                    <a href="{% url 'update-note' note.id %}" class="update-icon">
+                                        {% if note.favorite == 0 %}
                                             <i class="fa-regular fa-star fa-xl" style="color: #ffd43b;"></i>
                                         {% endif %}
-                                        {% if event.favorite == 1 %}
+                                        {% if note.favorite == 1 %}
                                             <i class="fa-solid fa-star fa-xl" style="color: #ffd43b;"></i>
                                         {% endif %}
                                     </a>
                                     <br>
-                                    <a href="{% url 'delete-event' event.id %}" class="delete-icon">
-                                        <i class="fa-solid fa-square-minus fa-xl" style="color: #ff0000;"></i>
+                                    <a href="{% url 'delete-note' note.id %}" class="delete-icon">
+                                        <i class="fa-solid fa-delete-left" style="color: #ff0000;"></i>
                                     </a>
+                                    <br>
+
                                 </td>
                             </tr>
                         {% endfor %}

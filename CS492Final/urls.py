@@ -30,7 +30,12 @@ urlpatterns = [
     path('search-results/', views.search, name='search-results'),
     path('add-event/', views.add_event, name='add-event'),  # C, add events to database
     path('view-events/', views.view_events, name='view-events'),  # R, retrieve events from database to view
-    path('update/<int:event_id>', views.update_event, name='update-event'),  # U, update event to favorites or unfavorite
+    # path('update/<int:event_id>', views.update_event, name='update-event'),  # U, update event to favorites or unfavorite
     path('logout/', views.logout_view, name='logout'),
-    path('delete/<int:id>', views.delete_event, name='delete-event'),  # D, delete event from saved events database
+    path('view-notes/', views.view_notes, name='view-notes'),
+    path('update/<int:note_id>', views.update_note, name='update-note'),  # U, update event to favorites or unfavorite
+    path('create-note/', views.create_note, name='create-note'),
+    path('delete/<int:id>', views.delete_note, name='delete-note'),  # D, delete event from saved events database
+    path('updateNote/<int:note_id>', views.update_comp_note, name='update-comp-note'),  # U, update event to favorites or unfavorite
+
 ]

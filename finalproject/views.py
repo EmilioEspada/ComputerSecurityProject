@@ -127,7 +127,7 @@ def get_ticketmaster_search(classification_name, city, sort):
 
 def signup(request):
     if request.user.is_authenticated:
-        return redirect('search-results')
+        return redirect('view-notes')
 
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
@@ -206,7 +206,7 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('search-results')
+            return redirect('view-notes')
     else:
         form = BootstrapAuthenticationForm()
     return render(request, 'login.html', {'form': form})
@@ -218,3 +218,61 @@ def delete_event(request, id):  # delete events from saved database
         event.delete()
         return redirect('view-events')
     return render(request, 'delete-confirm.html', {'event': event})
+
+
+@login_required(login_url='login')
+def view_notes(request):  # view saved events
+    notes = SavedNotes.objects.filter(user=request.user)
+    context = {'notes': notes}
+    return render(request, 'saved-notes.html', context)
+@login_required(login_url='login')
+def create_note(request):
+    # Create a form instance and populate it with data from the request
+    form = SavedNotesForm(request.POST or None)
+    # check whether it's valid:
+    if form.is_valid():
+        form.instance.user = request.user
+        form.instance.username = request.user.username
+        obj = form.save(commit=False)
+
+        # obj.accountUser = request.user.username
+        # save the record into the db
+        obj.save()
+        form.save()
+        # after saving redirect to view_product page
+        return redirect('view-notes')
+
+    # if the request does not have post data, a blank form will be rendered
+    return render(request, 'create-note-form.html', {'form': form})
+
+@login_required(login_url='login')
+def update_note(request, note_id):  # favorite events that are saved
+    note = SavedNotes.objects.get(id=note_id, user=request.user)
+    form = SavedNotesForm(request.POST or None, instance=note)
+    favorite = form.save(commit=False)
+    favorite.favorite = 1 - favorite.favorite  # swaps between true and false whenever favorite is clicked
+    favorite.save()
+    if form.is_valid():
+        form.instance.user = request.user
+        form.save()
+        return redirect('view-notes')
+    notes = SavedNotes.objects.filter(user=request.user)
+    context = {'notes': notes}
+    return render(request, 'saved-notes.html', context)
+
+def delete_note(request, id):  # delete events from saved database
+    note = SavedNotes.objects.get(id=id)
+    if request.method == 'POST':
+        note.delete()
+        return redirect('view-notes')
+    return render(request, 'delete-confirm.html', {'note': note})
+
+@login_required(login_url='/login/1/')
+def update_comp_note(request, note_id):
+    note = SavedNotes.objects.get(id=note_id)
+
+    form = SavedNotesForm(request.POST or None, instance=note)
+    if form.is_valid():
+        form.save()
+        return redirect('view-notes')
+    return render(request, 'create-note-form.html', {'form': form})
