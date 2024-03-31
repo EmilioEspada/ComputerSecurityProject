@@ -8,6 +8,8 @@ from django.shortcuts import render, redirect
 
 from .forms import *
 from .models import SavedEvents
+from .utils import *
+from django.http import HttpResponse
 
 
 @login_required()
@@ -283,9 +285,27 @@ def update_comp_note(request, note_id):
     return render(request, 'create-note-form.html', {'form': form})
 
 
-# Page to test encryption, not needed for final product
+# Page to test encryption, refer to utils.py for functions
 @login_required(login_url='test')
-def test_encrypt(request):  # view saved events
+def test_crypto(request):
     notes = SavedNotes.objects.filter(user=request.user)
-    context = {'notes': notes}
-    return render(request, 'test-encrypt.html', context)
+    if request.method == 'POST':
+        plaintext = request.POST.get('plaintext')
+        # Generate keys
+        public_key, private_key = generate_keys(2048)
+        # Encrypt the plaintext, will be shown as byte-string with escape characters (\x)
+        ciphertext = encrypt(plaintext.encode(), public_key)
+        # Decrypt the ciphertext
+        decrypted_text = decrypt(ciphertext, private_key).decode()
+        # Prepare the context data
+        context = {
+            'notes': notes,
+            'plaintext': plaintext,
+            'ciphertext': ciphertext,
+            'decrypted_text': decrypted_text,
+        }
+    else:
+        context = {
+            'notes': notes
+        }
+    return render(request, 'test-crypto.html', context)

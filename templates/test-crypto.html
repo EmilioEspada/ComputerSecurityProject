@@ -21,8 +21,26 @@
                             <th scope="col"></th>
                         </tr>
                         </thead>
-                        <tbody>
+                        <tbody>                        
                         {% for note in notes %}
+                            
+                            <!--Testing of functions from utils.py-->
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" id="plaintext" name="plaintext" value="{{ note.content }}">
+                                <button type="submit" class="btn btn-primary">Test Crypto for {{ note.title }}</button>
+                            </form>
+                            {% if plaintext %}
+                                <div>
+                                    <h3>RSA Results</h3>
+                                    <p>Plaintext: {{ plaintext }}</p>
+                                    <p>Ciphertext (Byte String): </p>
+                                    <p>{{ ciphertext }}</p>
+                                    <p>Decrypted Text: {{ decrypted_text }}</p>
+                                </div>
+                            {% endif %}
+                            <!-- -->
+                            
                             <tr>
                                 <td><p class="lead">{{ note.title }}</p><img src="{{ note.image }}" width="150"
                                                                              class="img-thumbnail rounded"
@@ -52,12 +70,10 @@
 
                                     <!--Click this button to convert this message to ASCII characters-->
                                     <!--How everything is shown here is not final, for testing purposes-->
-                                    <h4>Message to be converted to ASCII:</h4>
+                                    <h5>Message to be converted to ASCII:</h5>
                                     <p id="message">{{ note.content }}</p>
-
-                                    <h4>UID used for shift cipher:</h4>
+                                    <h5>UID used for shift cipher:</h5>
                                     <p id="uid">{{ note.user_id }}</p>
-
                                     <button id="encryptButton" type="button" class="btn btn-primary">Convert to ASCII
                                         and Shift
                                     </button>
@@ -65,7 +81,6 @@
                                     <!-- displays the converted ASCII characters after button press -->
                                     <div id="shiftOutput"></div>
                                     <!-- displays the shifted characters after button press -->
-
                                 </td>
                             </tr>
                         {% endfor %}
