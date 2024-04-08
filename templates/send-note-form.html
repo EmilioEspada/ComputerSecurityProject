@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+    Create Event
+{% endblock %}
+
+{% block body %}
+    <div class="container py-5 px-3 my-4 shadow border border-1 rounded bg-white">
+        <div class="card mb-3 mx-0">
+             <div class="row g-0 ">
+                     <div class="card-body">
+                             <div class="row my-3">
+                                <p class="fw-bold fs-3 mb-2">Send Note</p>
+                                <form method="post" action="">
+                                    {% csrf_token %}
+                                    {{ form|crispy }}
+                                    <div class="my-3">
+                                        <a href="{% url 'view-notes' %}" class="btn btn-info"><i class="fas fa-arrow-left"></i> Go Back</a>
+                                        <button type="reset" class="btn btn-warning"><i class="fas fa-redo-alt"></i>Reset</button>
+                                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i>Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                    </div>
+             </div>
+        </div>
+    </div>
+{% endblock %}

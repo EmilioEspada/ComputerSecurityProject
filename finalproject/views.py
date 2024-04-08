@@ -284,6 +284,13 @@ def update_comp_note(request, note_id):
         return redirect('view-notes')
     return render(request, 'create-note-form.html', {'form': form})
 
+def send_note(request, note_id):
+    note = SavedNotes.objects.get(id=note_id)
+    form = SendNotesForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return redirect('view-notes')
+    return render(request, 'send-note-form.html', {'form': form})
 
 # Page to test encryption, refer to utils.py for functions
 @login_required(login_url='test')

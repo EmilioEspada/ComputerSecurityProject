@@ -42,6 +42,10 @@
                                         {% endif %}
                                     </a>
                                     <br>
+                                    <a href="{% url 'send-note' note.id %}" class="delete-icon">
+                                        <i class="fa-solid fa-paper-plane"></i>
+                                    </a>
+                                    <br>
                                     <a href="{% url 'delete-note' note.id %}" class="delete-icon">
                                         <i class="fa-solid fa-delete-left" style="color: #ff0000;"></i>
                                     </a>
