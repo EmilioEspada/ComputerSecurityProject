@@ -286,9 +286,12 @@ def update_comp_note(request, note_id):
 
 def send_note(request, note_id):
     note = SavedNotes.objects.get(id=note_id)
-    form = SendNotesForm(request.POST or None)
+    form = SendNotesForm(request.POST)
     if form.is_valid():
-        form.save()
+        user = User.objects.get(username=form.cleaned_data.get("Username"))
+        newNote = note
+        newNote.user_id = user.id
+        newNote.save()
         return redirect('view-notes')
     return render(request, 'send-note-form.html', {'form': form})
 
