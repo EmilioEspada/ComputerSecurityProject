@@ -136,7 +136,7 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            privateKey, publicKey = generate_keys(32)
+            publicKey, privateKey  = generate_keys(32)
             newUserPrivatePublic = PrivatePublicKey()
             newUserPrivatePublic.user = request.user
             newUserPrivatePublic.privateKey1, newUserPrivatePublic.privateKey2 = privateKey
@@ -302,7 +302,7 @@ def send_note(request, note_id):
 
         newNote = note
         plainText = newNote.content
-        plainText1 = plainText
+        plainText1 = plainText.replace('\x00', '')
 
         # hash plainText1 to store hash
         hash1 = tiger_hash(plainText1.encode())
@@ -322,15 +322,19 @@ def send_note(request, note_id):
 
         # decrypt
         decryptedNote = SavedNotes.objects.get(id=note_id)
-        encryptedNoteText = eval(decryptedNote.content.encode('utf-8'))
-        decryptedText = decrypt(encryptedNoteText,privateKey).decode()
+        encryptedNoteText = eval(decryptedNote.content.encode())
+        decryptedText = decrypt(encryptedNoteText, privateKey).decode()
         decryptedNote.content = decryptedText
-        plainText2 = decryptedText
+        plainText2 = decryptedText.replace('\x00', '')
 
         # hash to check if message is the same
         hash2 = tiger_hash(plainText2.encode())
         message2 = ""
-        if (hash1 == hash2):
+
+        print(list(plainText1))
+        print(list(plainText2))
+
+        if hash1 == hash2:
             message2 = "Message was successfully checked using tiger hash!"
         else:
             message2 = "Message was successfully checked and the message has been changed in between sending and receiving."
