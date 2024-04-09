@@ -11,7 +11,7 @@
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
     <data-source source="LOCAL" name="db" uuid="71cf5f7a-12da-4f75-b842-426b3fc4a4a9">
-      <driver-ref>1524a847-ff68-4c0c-b157-915e7908deda</driver-ref>
+      <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:C:\Users\Emilio Espada\PycharmProjects\ComputerSecurityProject\db.sqlite3</jdbc-url>
@@ -29,7 +29,7 @@
       </libraries>
     </data-source>
     <data-source source="LOCAL" name="db [2]" uuid="3a759046-8fcb-4c93-a96f-f8b7efe47ec5">
-      <driver-ref>1524a847-ff68-4c0c-b157-915e7908deda</driver-ref>
+      <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
       <jdbc-url>jdbc:sqlite:C:\Users\Emilio Espada\Documents\GitHub\Computer Security Project\db.sqlite3</jdbc-url>

@@ -9,6 +9,17 @@
         <div class="row justify-content-center">
             <div class="col-lg-12">
                 <h1 class="display-6 text-center">Saved Notes</h1>
+                {% if plaintext %}
+                    <div>
+                        <h3>RSA Results</h3>
+                        <p>Plaintext: {{ plaintext }}</p>
+                        <p>Private Key: {{ privateKey }}</p>
+                        <p>Public Key: {{ publicKey }}</p>
+                        <p>Ciphertext (Byte String): </p>
+                        <p>{{ ciphertext }}</p>
+                        <p>Decrypted Text: {{ decrypted_text }}</p>
+                    </div>
+                {% endif %}
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>

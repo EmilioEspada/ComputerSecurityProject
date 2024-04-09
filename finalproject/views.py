@@ -136,6 +136,14 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
+            privateKey, publicKey = generate_keys(32)
+            newUserPrivatePublic = PrivatePublicKey()
+            newUserPrivatePublic.user = request.user
+            newUserPrivatePublic.privateKey1, newUserPrivatePublic.privateKey1 = privateKey
+            newUserPrivatePublic.publicKey1, newUserPrivatePublic.publicKey2 = publicKey
+            newUserPrivatePublic.save()
+
+
             messages.success(request, 'Account created successfully. You are now logged in.')
             return redirect('login')
         else:
@@ -290,9 +298,22 @@ def send_note(request, note_id):
     if form.is_valid():
         user = User.objects.get(username=form.cleaned_data.get("Username"))
         newNote = note
+
+
+
+
+        notes = SavedNotes.objects.filter(user=request.user)
+        context = {
+            'notes': notes
+
+
+        }
         newNote.user_id = user.id
         newNote.save()
-        return redirect('view-notes')
+        # decrypt
+
+
+        return render(request,'saved-notes.html', context)
     return render(request, 'send-note-form.html', {'form': form})
 
 # Page to test encryption, refer to utils.py for functions
@@ -302,7 +323,7 @@ def test_crypto(request):
     if request.method == 'POST':
         plaintext = request.POST.get('plaintext')
         # Generate keys
-        public_key, private_key = generate_keys(2048)
+        public_key, private_key = generate_keys(32)
         # Encrypt the plaintext, will be shown as byte-string with escape characters (\x)
         ciphertext = encrypt(plaintext.encode(), public_key)
         # Decrypt the ciphertext
@@ -310,6 +331,8 @@ def test_crypto(request):
         # Prepare the context data
         context = {
             'notes': notes,
+            'publicKey': public_key,
+            'privateKey': private_key,
             'plaintext': plaintext,
             'ciphertext': ciphertext,
             'decrypted_text': decrypted_text,

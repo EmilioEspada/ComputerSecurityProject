@@ -32,3 +32,11 @@ class SavedNotes(models.Model):
     time = models.CharField(max_length=16, blank=True)
     content = models.CharField(max_length=256, blank=True)
     favorite = models.BooleanField()
+
+class PrivatePublicKey(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    privateKey1 = models.IntegerField()
+    privateKey2 = models.IntegerField()
+    publicKey1 = models.IntegerField()
+    publicKey2 = models.IntegerField()
+
