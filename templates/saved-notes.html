@@ -9,15 +9,21 @@
         <div class="row justify-content-center">
             <div class="col-lg-12">
                 <h1 class="display-6 text-center">Saved Notes</h1>
-                {% if plaintext %}
+                {% if plainText %}
                     <div>
                         <h3>RSA Results</h3>
-                        <p>Plaintext: {{ plaintext }}</p>
+                        <p>Plaintext: {{ plainText }}</p>
                         <p>Private Key: {{ privateKey }}</p>
                         <p>Public Key: {{ publicKey }}</p>
-                        <p>Ciphertext (Byte String): </p>
-                        <p>{{ ciphertext }}</p>
-                        <p>Decrypted Text: {{ decrypted_text }}</p>
+                        <p>Ciphertext (Byte String): {{ cipherText }}</p>
+                        <p>Decrypted Text: {{ decryptedText }}</p>
+                        <p>{{ message1 }}</p>
+                        <h3>Tiger Hash Results</h3>
+                        <p>Before Sending PlainText: {{ plainText1 }}</p>
+                        <p>Hash: {{ hash1 }}</p>
+                        <p>After Sending PlainText: {{ plainText2 }}</p>
+                        <p>Hash: {{ hash2 }}</p>
+                        <p>{{ message2 }}</p>
                     </div>
                 {% endif %}
                 <div class="table-responsive">
