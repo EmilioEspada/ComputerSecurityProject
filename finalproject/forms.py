@@ -55,4 +55,8 @@ class SavedEventsForm(forms.ModelForm):
 class SavedNotesForm(forms.ModelForm):
     class Meta:
         model = SavedNotes
-        exclude = ('user', 'username','date','time')
+        exclude = ('user', 'username', 'date', 'time')
+
+
+class SendNotesForm(forms.Form):
+    Username = forms.CharField(max_length=100)

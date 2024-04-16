@@ -89,6 +89,7 @@ def generate_keys(key_size):
     public_key = (e, n)
     private_key = (d, n)
 
+
     return public_key, private_key
 
 

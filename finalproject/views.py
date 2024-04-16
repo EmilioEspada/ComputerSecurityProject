@@ -136,6 +136,14 @@ def signup(request):
         if form.is_valid():
             user = form.save()
             login(request, user)
+            publicKey, privateKey  = generate_keys(32)
+            newUserPrivatePublic = PrivatePublicKey()
+            newUserPrivatePublic.user = request.user
+            newUserPrivatePublic.privateKey1, newUserPrivatePublic.privateKey2 = privateKey
+            newUserPrivatePublic.publicKey1, newUserPrivatePublic.publicKey2 = publicKey
+            newUserPrivatePublic.save()
+
+
             messages.success(request, 'Account created successfully. You are now logged in.')
             return redirect('login')
         else:
@@ -265,7 +273,7 @@ def update_note(request, note_id):  # favorite events that are saved
     context = {'notes': notes}
     return render(request, 'saved-notes.html', context)
 
-
+@login_required(login_url='login')
 def delete_note(request, id):  # delete events from saved database
     note = SavedNotes.objects.get(id=id)
     if request.method == 'POST':
@@ -283,7 +291,75 @@ def update_comp_note(request, note_id):
         form.save()
         return redirect('view-notes')
     return render(request, 'create-note-form.html', {'form': form})
+@login_required(login_url='login')
+def send_note(request, note_id):
+    note = SavedNotes.objects.get(id=note_id)
+    form = SendNotesForm(request.POST)
+    if form.is_valid():
+        user = User.objects.get(username=form.cleaned_data.get("Username"))
+        if user is None:
+            return redirect('view-notes')
 
+        newNote = note
+        plainText = newNote.content
+        plainText1 = plainText.replace('\x00', '')
+
+        # hash plainText1 to store hash
+        hash1 = tiger_hash(plainText1.encode())
+
+        # get private and public of current user
+        privatePublicKey = PrivatePublicKey.objects.get(user=request.user)
+        privateKey = privatePublicKey.privateKey1, privatePublicKey.privateKey2
+        publicKey = privatePublicKey.publicKey1, privatePublicKey.publicKey2
+
+        # encrypt
+        cipherText = encrypt(plainText.encode(),publicKey)
+        newNote.content = cipherText
+
+        # send note
+        newNote.user_id = user.id
+        newNote.save()
+
+        # decrypt
+        decryptedNote = SavedNotes.objects.get(id=note_id)
+        encryptedNoteText = eval(decryptedNote.content.encode())
+        decryptedText = decrypt(encryptedNoteText, privateKey).decode()
+        decryptedNote.content = decryptedText
+        plainText2 = decryptedText.replace('\x00', '')
+
+        # hash to check if message is the same
+        hash2 = tiger_hash(plainText2.encode())
+        message2 = ""
+
+        print(list(plainText1))
+        print(list(plainText2))
+
+        if hash1 == hash2:
+            message2 = "Message was successfully checked using tiger hash!"
+        else:
+            message2 = "Message was successfully checked and the message has been changed in between sending and receiving."
+
+        decryptedNote.save()
+
+        message1 = "Message was encrypted and decrypted successfully using public key crypto while sending! Sent to user: " + form.cleaned_data.get("Username")
+        notes = SavedNotes.objects.filter(user=request.user)
+        context = {
+            'notes': notes,
+            'plainText': plainText,
+            'privateKey': privateKey,
+            'publicKey': publicKey,
+            'cipherText': cipherText,
+            'decryptedText': decryptedText,
+            'message1': message1,
+            'plainText1': plainText1,
+            'plainText2': plainText2,
+            'hash1': hash1,
+            'hash2': hash2,
+            'message2': message2,
+
+        }
+        return render(request,'saved-notes.html', context)
+    return render(request, 'send-note-form.html', {'form': form})
 
 # Page to test encryption, refer to utils.py for functions
 @login_required(login_url='test')
@@ -292,7 +368,7 @@ def test_crypto(request):
     if request.method == 'POST':
         plaintext = request.POST.get('plaintext')
         # Generate keys
-        public_key, private_key = generate_keys(2048)
+        public_key, private_key = generate_keys(32)
         # Encrypt the plaintext, will be shown as byte-string with escape characters (\x)
         ciphertext = encrypt(plaintext.encode(), public_key)
         # Decrypt the ciphertext
@@ -300,6 +376,8 @@ def test_crypto(request):
         # Prepare the context data
         context = {
             'notes': notes,
+            'publicKey': public_key,
+            'privateKey': private_key,
             'plaintext': plaintext,
             'ciphertext': ciphertext,
             'decrypted_text': decrypted_text,

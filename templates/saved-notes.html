@@ -9,12 +9,28 @@
         <div class="row justify-content-center">
             <div class="col-lg-12">
                 <h1 class="display-6 text-center">Saved Notes</h1>
+                {% if plainText %}
+                    <div>
+                        <h3>RSA Results</h3>
+                        <p>Plaintext: {{ plainText }}</p>
+                        <p>Public Key (e,n): {{ publicKey }}</p>
+                        <p>Private Key (d,n): {{ privateKey }}</p>
+                        <p>Ciphertext (Byte String): {{ cipherText }}</p>
+                        <p>Decrypted Text: {{ decryptedText }}</p>
+                        <p>{{ message1 }}</p>
+                        <h3>Tiger Hash Results</h3>
+                        <p>Before Sending PlainText: {{ plainText1 }}</p>
+                        <p>Hash: {{ hash1 }}</p>
+                        <p>After Sending PlainText: {{ plainText2 }}</p>
+                        <p>Hash: {{ hash2 }}</p>
+                        <p>{{ message2 }}</p>
+                    </div>
+                {% endif %}
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
                         <tr>
                             <th scope="col-2">Title</th>
-                            <th scope="col-2">Date</th>
                             <th scope="col-6">Note</th>
                             <th scope="col-1">Created User</th>
                             <th scope="col"></th>
@@ -24,7 +40,7 @@
                         {% for note in notes %}
                             <tr>
                                 <td><p class="lead">{{ note.title }}</p><img src="{{ note.image }}" width="150" class="img-thumbnail rounded" alt="note image"></td>
-                                <td class="lead">{{ note.date }}, {{ note.time }}</td>
+<!--                                <td class="lead">{{ note.date }}, {{ note.time }}</td>-->
                                 <td class="lead" width="200">{{ note.content }}</td>
                                 <td class="lead">{{ note.username }} </td>
                                 <td class="lead text-center">
@@ -40,6 +56,10 @@
                                         {% if note.favorite == 1 %}
                                             <i class="fa-solid fa-star fa-xl" style="color: #ffd43b;"></i>
                                         {% endif %}
+                                    </a>
+                                    <br>
+                                    <a href="{% url 'send-note' note.id %}" class="delete-icon">
+                                        <i class="fa-solid fa-paper-plane"></i>
                                     </a>
                                     <br>
                                     <a href="{% url 'delete-note' note.id %}" class="delete-icon">
