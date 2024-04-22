@@ -1,4 +1,5 @@
-# This files holds all our algorithms and functions required to be used for our notes app -Emilio Espada
+# The code here was made by Emilio Espada
+# This files holds all our algorithms and functions required to be used for our notes app
 import random
 import struct
 
@@ -171,19 +172,24 @@ def decrypt(ciphertext, private_key):
     return plaintext
 
 
-# Tested Tiger hash outside of project, still have to implement within project
-# Tiger hash constants
+# These are predefined constants used in the Tiger hash algorithm.
+# They are used in the compression function to introduce non-linearity and improve the hash function's security.
 tiger_constants = [
     0x8ba25628474e14c9, 0xe9f84EE8b9b54d57, 0x0D14D4B2747AF248, 0x12D9810213B2915C,
     0x7B6c4708be95df3c, 0x7d2914f49b7574bc, 0x709034953e1d9806, 0x2b60affdea195ffb
 ]
 
-# Tiger hash initialization values
+
+# These are the initial values of the state variables used in the Tiger hash algorithm.
+# They are fixed and provide the initial state for the hash computation.
 tiger_init = [
     0x0123456789ABCDEF, 0xFEDCBA9876543210, 0xF096A5B4C3B2E187, 0x07D36F5C8B862300
 ]
 
-# Tiger hash round functions
+
+# These are the round functions used in the Tiger hash algorithm.
+# They introduce non-linearity and provide diffusion in the hash computation.
+# Each round function operates on a 64-bit input and produces a 64-bit output.
 t1 = lambda x: (x & 0xFFFFFFFF) ^ ((x >> 32) & 0xFFFFFFFF)
 t2 = lambda x: (x & 0x7FFFFFFF) ^ ((x >> 31) & 0x7FFFFFFF) ^ ((x >> 32) & 0x7FFFFFFF)
 t3 = lambda x: (x & 0x1FFFFFFF) ^ ((x >> 29) & 0x1FFFFFFF) ^ ((x >> 30) & 0x1FFFFFFF) ^ ((x >> 31) & 0x1FFFFFFF)
@@ -191,45 +197,76 @@ t4 = lambda x: (x & 0x0FFFFFFF) ^ ((x >> 27) & 0x0FFFFFFF) ^ ((x >> 28) & 0x0FFF
         (x >> 30) & 0x0FFFFFFF)
 
 
-# Tiger compression function
+# The tiger_compress function is the core of the Tiger hash algorithm.
+# It takes the input data and the current state of the hash as input, performs the necessary operations,
+# and updates the state of the hash. This function is called iteratively to process the entire input data.
 def tiger_compress(data, state):
     values = [0] * 8
     values[:4] = state[:4]
+    # Initialize the values array with the current state of the hash.
 
     for i in range(8):
         chunk = data[i * 8:(i + 1) * 8]
         chunk += b'\x00' * (8 - len(chunk))  # Padding to ensure exactly 8 bytes
+        # Split the input data into 8-byte chunks and pad the last chunk if necessary.
+        # This is done to ensure that the input data is processed in 64-bit blocks.
+
         values[i % 4] ^= struct.unpack(">Q", chunk)[0]
+        # Perform an XOR operation between the current value and the 64-bit chunk.
+        # This step introduces the input data into the state.
 
     for i in range(8):
         x = t1(values[0] - (values[7] ^ tiger_constants[i % 8])) ^ values[4]
         y = t2(values[2] + tiger_constants[(i + 4) % 8])
         z = t3(values[1] + (values[3] ^ y))
+        # Perform the round functions and update the state variables.
+        # The round functions introduce non-linearity and diffusion into the hash computation.
+
         values[3] = (values[3] ^ x)
         values[1] = values[2]
         values[2] = values[1] ^ y ^ z
         values[0] = y
+
         values = values[1:] + values[:1]
+        # Perform a circular shift on the values array.
+
         values[4:8] = [values[4] ^ x, values[5] ^ y, values[6] ^ z, values[7] ^ (x ^ y ^ z)]
+        # Update the remaining state variables using the computed values.
 
     state[:4] = [state[i] ^ values[i % 4] for i in range(4)]
+    # Update the state of the hash by XORing the current state with the computed values.
+
     return state
 
 
-# Tiger hash function
+# The tiger_hash function is the main entry point for computing the Tiger hash of the input data.
+# It performs the necessary initialization, padding, and processing of the input data using the tiger_compress function.
+# The final state of the hash is then converted to a hexadecimal string and returned as the Tiger hash value.
 def tiger_hash(data):
+    # Initialize the state of the hash with the predefined initial values.
     state = list(tiger_init)
+
+    # Calculate the length of the input data in bits.
     length = len(data) * 8
+
+    # Append a '1' bit to the input data to mark the end of the message.
     data += b'\x01'
+
+    # Pad the input data with '0' bits until its length is a multiple of 8 bytes.
+    # This step ensures that the input data is properly padded before hashing.
     data += b'\x00' * ((7 - len(data) % 8) % 8)
+
+    # Process the input data in 64-bit blocks by calling the tiger_compress function.
     for i in range(0, len(data), 8):
         state = tiger_compress(data[i:i + 8], state)
 
+    # Convert the length of the input data to a byte string in little-endian format.
     length_bits = length.to_bytes(8, byteorder='little')
+
+    # Process the length of the input data by calling the tiger_compress function.
+    # This step ensures that the length is properly incorporated into the hash computation.
     for i in range(8):
         state = tiger_compress(length_bits[i::8], state)
 
+    # Convert the final state of the hash to a hexadecimal string and return it as the Tiger hash value.
     return ''.join([format(state[i], '016x') for i in range(4)])
-
-# message = b"The quick brown fox jumps over the lazy dog"
-# print(tiger_hash(message))
