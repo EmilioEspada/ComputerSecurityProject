@@ -1,6 +1,6 @@
 """
 URL configuration for CS492Final project.
-
+Inherited from TicketMaser project, some parts made by Django.
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.2/topics/http/urls/
 Examples:
@@ -16,28 +16,24 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from finalproject import views
-from django.contrib.auth.views import LoginView
-from finalproject.forms import BootstrapAuthenticationForm
 from django.views.generic import RedirectView
+
+from finalproject import views
 from finalproject.views import signup
 
+# Inherited from TicketMaster project, additions made by William
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', RedirectView.as_view(url='/signup/'), name='redirect_to_signup'),
     path('signup/', signup, name='signup'),
     path('login/', views.login_view, name='login'),
-    path('search-results/', views.search, name='search-results'),
-    path('add-event/', views.add_event, name='add-event'),  # C, add events to database
-    path('view-events/', views.view_events, name='view-events'),  # R, retrieve events from database to view
-    # path('update/<int:event_id>', views.update_event, name='update-event'),  # U, update event to favorites or unfavorite
     path('logout/', views.logout_view, name='logout'),
     path('view-notes/', views.view_notes, name='view-notes'),
-    path('update/<int:note_id>', views.update_note, name='update-note'),  # U, update event to favorites or unfavorite
+    path('update/<int:note_id>', views.update_note, name='update-note'),
     path('create-note/', views.create_note, name='create-note'),
-    path('delete/<int:id>', views.delete_note, name='delete-note'),  # D, delete event from saved events database
-    path('updateNote/<int:note_id>', views.update_comp_note, name='update-comp-note'),  # U, update event to favorites or unfavorite
-    path('sendNote/<int:note_id>', views.send_note, name='send-note'),  # send note
+    path('delete/<int:id>', views.delete_note, name='delete-note'),
+    path('updateNote/<int:note_id>', views.update_comp_note, name='update-comp-note'),
+    path('sendNote/<int:note_id>', views.send_note, name='send-note'),
 
     # used to test encryption, not needed for final product
     path('test-crypto/', views.test_crypto, name='test-crypto'),

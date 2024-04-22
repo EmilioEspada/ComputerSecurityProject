@@ -1,11 +1,15 @@
 CS-492-02 Spring 2024 Computer Security Course Project
-
-
 Emilio Espada and William Horton
 Professor Zabihimayvan
 
 
-Project Survey
+This project reused code from Emilio's Web Development TicketMaster API Project.
+There is no calls to the TicketMaster API, the reuse of code was mainly for the
+overall appearance of the site (Bootstrap, CSS, HTML). Adjustments where made to
+the pages by William to fit our website being about a Notes application.
+Emilio's worked on the implementation of RSA and Tiger hash found in the utils.py
+file which are then used in our views.py by William to interact with the database
+work he did on for creating, sending, and receiving notes.
 
 
 Introduction to the Project

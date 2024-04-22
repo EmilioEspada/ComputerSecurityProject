@@ -1,6 +1,6 @@
 """
 ASGI config for CS492Final project.
-
+Inherited and made by Django
 It exposes the ASGI callable as a module-level variable named ``application``.
 
 For more information on this file, see

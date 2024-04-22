@@ -1,3 +1,4 @@
+// Code here was made by Emilio for early testings of encryption, not used for our end result of the notes app
 document.getElementById("encryptButton").addEventListener("click", function () {
     const messageElement = document.getElementById("message");
     const uidElement = document.getElementById("uid");

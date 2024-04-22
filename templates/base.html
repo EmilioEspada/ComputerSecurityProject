@@ -1,3 +1,4 @@
+<!--All HTML pages were inherited from TicketMaster project and adjusted where needed -->
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -20,12 +21,7 @@
   <div class="container">
     <a class="navbar-brand text-white" href="."><i class="fa-solid fa-note-sticky fa-2xl"></i></a>
     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        
-        {# Used to get to page for testing encryption, not needed for final product #}
-        <li class="nav-item">
-            <a class="nav-link text-white" href="{% url 'test-crypto' %}">TEST CRYPTO</a>
-        </li>    
-    
+
       {% if user.is_authenticated %}
 {#        <li class="nav-item">#}
 {#          <a class="nav-link text-white" href="{% url 'search-results' %}">Search</a>#}

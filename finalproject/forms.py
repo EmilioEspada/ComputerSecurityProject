@@ -1,30 +1,11 @@
 from django import forms
-from .models import *
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm
+
+from .models import *
 
 
-class SearchForm(forms.ModelForm):
-    class Meta:
-        widgets = {
-            'param1': forms.TextInput(attrs={
-                'name': 'param1',
-                'placeholder': 'Search by genre, artist or event',
-                'type': 'text',
-                'aria-label': 'keywords',
-                'class': 'form-control'
-
-            }),
-            'param2': forms.TextInput(attrs={
-                'name': 'param2',
-                'placeholder': 'Enter a city e.g., Hartford',
-                'type': 'text',
-                'aria-label': 'keywords',
-                'class': 'form-control'
-            }),
-        }
-
-
+# Form inherited from TicketMaster project
 class BootstrapAuthenticationForm(AuthenticationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -34,6 +15,7 @@ class BootstrapAuthenticationForm(AuthenticationForm):
         self.fields['password'].widget.attrs.update({'class': 'form-control'})
 
 
+# Form inherited from TicketMaster project
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = User
@@ -46,17 +28,13 @@ class CustomUserCreationForm(UserCreationForm):
         self.fields['password2'].widget.attrs.update({'class': 'form-control m-2'})
 
 
-class SavedEventsForm(forms.ModelForm):
-    class Meta:
-        model = SavedEvents
-        exclude = ['user']
-
-
+# Form made by William
 class SavedNotesForm(forms.ModelForm):
     class Meta:
         model = SavedNotes
         exclude = ('user', 'username', 'date', 'time')
 
 
+# Form made by William
 class SendNotesForm(forms.Form):
     Username = forms.CharField(max_length=100)

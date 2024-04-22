@@ -1,6 +1,6 @@
 """
 WSGI config for CS492Final project.
-
+This file is made by Django.
 It exposes the WSGI callable as a module-level variable named ``application``.
 
 For more information on this file, see

@@ -1,3 +1,4 @@
+# Inherited from TicketMaster project
 from django.apps import AppConfig
 
 
