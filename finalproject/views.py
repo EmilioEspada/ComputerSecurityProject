@@ -21,6 +21,8 @@ def signup(request):
     if request.user.is_authenticated:
         return redirect('view-notes')
 
+    # check if after using the form the user is authenticated after creating an account,
+    # if they are, assign private and public keys to their user
     if request.method == 'POST':
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
@@ -59,7 +61,7 @@ def login_view(request):
     return render(request, 'login.html', {'form': form})
 
 
-# Code updated by William
+# Function called upon viewing the view notes page: Code updated by William
 @login_required(login_url='login')
 def view_notes(request):  # view saved events
     notes = SavedNotes.objects.filter(user=request.user)
@@ -67,7 +69,7 @@ def view_notes(request):  # view saved events
     return render(request, 'saved-notes.html', context)
 
 
-# Code updated by William
+# Function called upon creating a note: Code updated by William
 @login_required(login_url='login')
 def create_note(request):
     # Create a form instance and populate it with data from the request
@@ -89,7 +91,7 @@ def create_note(request):
     return render(request, 'create-note-form.html', {'form': form})
 
 
-# Code by William
+# Function called upon favoriting a note: Code by William
 @login_required(login_url='login')
 def update_note(request, note_id):  # favorite events that are saved
     note = SavedNotes.objects.get(id=note_id, user=request.user)
@@ -106,7 +108,7 @@ def update_note(request, note_id):  # favorite events that are saved
     return render(request, 'saved-notes.html', context)
 
 
-# Code updated by William
+# Function called upon deleting a note: Code updated by William
 @login_required(login_url='login')
 def delete_note(request, id):  # delete events from saved database
     note = SavedNotes.objects.get(id=id)
@@ -116,7 +118,7 @@ def delete_note(request, id):  # delete events from saved database
     return render(request, 'delete-confirm.html', {'note': note})
 
 
-# Code by William
+# Function called upon updating a note: Code by William
 @login_required(login_url='/login/1/')
 def update_comp_note(request, note_id):
     note = SavedNotes.objects.get(id=note_id)
@@ -128,7 +130,7 @@ def update_comp_note(request, note_id):
     return render(request, 'create-note-form.html', {'form': form})
 
 
-# Code by William
+# Function that is activated upon sending a note, where encryption takes place: Code by William
 @login_required(login_url='login')
 def send_note(request, note_id):
     note = SavedNotes.objects.get(id=note_id)
@@ -137,6 +139,7 @@ def send_note(request, note_id):
         user = User.objects.get(username=form.cleaned_data.get("Username"))
         if user is None:
             return redirect('view-notes')
+
 
         newNote = note
         plainText = newNote.content
@@ -150,7 +153,7 @@ def send_note(request, note_id):
         privateKey = privatePublicKey.privateKey1, privatePublicKey.privateKey2
         publicKey = privatePublicKey.publicKey1, privatePublicKey.publicKey2
 
-        # encrypt
+        # encrypt note
         cipherText = encrypt(plainText.encode(), publicKey)
         newNote.content = cipherText
 
@@ -158,7 +161,7 @@ def send_note(request, note_id):
         newNote.user_id = user.id
         newNote.save()
 
-        # decrypt
+        # decrypt note
         decryptedNote = SavedNotes.objects.get(id=note_id)
         encryptedNoteText = eval(decryptedNote.content.encode())
         decryptedText = decrypt(encryptedNoteText, privateKey).decode()

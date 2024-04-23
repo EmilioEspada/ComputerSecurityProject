@@ -28,13 +28,16 @@ class CustomUserCreationForm(UserCreationForm):
         self.fields['password2'].widget.attrs.update({'class': 'form-control m-2'})
 
 
-# Form made by William
+# Form that is called upon saving a note: Form made by William
 class SavedNotesForm(forms.ModelForm):
+
+    # sends all data to form except user, username, date, and time
     class Meta:
         model = SavedNotes
         exclude = ('user', 'username', 'date', 'time')
 
 
-# Form made by William
+# Form that is called upon sending a note: Form made by William
 class SendNotesForm(forms.Form):
+    # custom form that takes a username for the user to send to
     Username = forms.CharField(max_length=100)
