@@ -133,12 +133,15 @@ def update_comp_note(request, note_id):
 # Function that is activated upon sending a note, where encryption takes place: Code by William
 @login_required(login_url='login')
 def send_note(request, note_id):
-    note = SavedNotes.objects.get(id=note_id)
+
     form = SendNotesForm(request.POST)
     if form.is_valid():
-        user = User.objects.get(username=form.cleaned_data.get("Username"))
-        if user is None:
+        if not User.objects.filter(username=form.cleaned_data.get("Username")).exists():
+            print(User.objects.filter(username=form.cleaned_data.get("Username")))
             return redirect('view-notes')
+
+        note = SavedNotes.objects.get(id=note_id)
+        user = User.objects.get(username=form.cleaned_data.get("Username"))
 
 
         newNote = note
